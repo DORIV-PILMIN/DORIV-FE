@@ -4,72 +4,71 @@ import Link from "next/link";
 
 export default function InterviewPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#4A90E2] to-[#6B5CE7] relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-[#5B7FE8] via-[#5574E5] to-[#6B5CE7] relative overflow-hidden">
       {/* Dotted Pattern Background */}
       <div
-        className="absolute inset-0 opacity-30"
+        className="absolute inset-0"
         style={{
-          backgroundImage: `radial-gradient(circle, white 1.5px, transparent 1.5px)`,
-          backgroundSize: "30px 30px",
+          backgroundImage: `radial-gradient(circle, white 2px, transparent 2px)`,
+          backgroundSize: "32px 32px",
         }}
       ></div>
 
       {/* Top Left Star */}
-      <div className="absolute top-12 left-12">
-        <div className="relative w-16 h-16">
+      <div className="absolute top-16 left-16">
+        <div className="relative w-20 h-20">
           <div
-            className="absolute inset-0"
+            className="absolute inset-0 bg-[#C8FF6D] border-[5px] border-black"
             style={{
               clipPath:
                 "polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)",
             }}
-          >
-            <div className="w-full h-full bg-[#90EE90] border-[3px] border-black"></div>
-          </div>
+          ></div>
         </div>
       </div>
 
       {/* Bottom Left Square */}
-      <div className="absolute bottom-12 left-12">
-        <div className="w-12 h-12 bg-white border-[3px] border-black"></div>
+      <div className="absolute bottom-20 left-16">
+        <div className="w-16 h-16 bg-white border-[5px] border-black"></div>
       </div>
 
       {/* Right Side Wavy Line */}
-      <div className="absolute top-1/4 right-12">
-        <svg width="100" height="200" viewBox="0 0 100 200">
+      <div className="absolute top-[28%] right-16">
+        <svg width="80" height="160" viewBox="0 0 80 160">
           <path
-            d="M 20 0 Q 60 50, 20 100 T 20 200"
+            d="M 30 10 Q 50 40, 30 70 Q 10 100, 30 130"
             stroke="black"
-            strokeWidth="3"
+            strokeWidth="4"
             fill="none"
+            strokeLinecap="round"
           />
         </svg>
       </div>
 
       {/* Main Card */}
       <div className="flex items-center justify-center min-h-screen px-4">
-        <div className="bg-white border-[6px] border-black rounded-lg p-12 shadow-[8px_8px_0px_rgba(0,0,0,1)] max-w-[600px] w-full relative">
+        <div className="bg-white border-[8px] border-black rounded-none p-14 shadow-[12px_12px_0px_rgba(0,0,0,1)] max-w-[680px] w-full relative">
           {/* Active Recall Badge */}
-          <div className="flex justify-center mb-8">
-            <div className="bg-black text-white px-6 py-2 text-sm font-bold tracking-wider">
+          <div className="flex justify-center mb-10">
+            <div className="bg-black text-white px-8 py-2.5 text-[13px] font-bold tracking-[0.15em]">
               ACTIVE RECALL
             </div>
           </div>
 
           {/* Title */}
-          <h1 className="text-[42px] font-bold text-center mb-4 text-black">
+          <h1 className="text-[48px] font-bold text-center mb-5 text-black leading-tight">
             깜짝 미니 면접!
           </h1>
 
           {/* Subtitle */}
-          <p className="text-center text-gray-600 mb-10 text-lg">
+          <p className="text-center text-gray-700 mb-12 text-[17px]">
             기억력을 테스트할 시간입니다.
           </p>
 
           {/* Question Box */}
-          <div className="border-[3px] border-black rounded-lg p-8 mb-10 bg-white">
-            <p className="text-lg text-center text-black leading-relaxed">
-              <span className="bg-[#90EE90] px-2 py-1 font-semibold">
+          <div className="border-[4px] border-black rounded-none p-8 mb-12 bg-[#FFFACD]">
+            <p className="text-[19px] text-center text-black leading-relaxed font-medium">
+              <span className="bg-[#C8FF6D] px-2 py-1 font-bold">
                 [은영체제: 레드락]
               </span>{" "}
               에 대해 설명할
@@ -79,18 +78,18 @@ export default function InterviewPage() {
           </div>
 
           {/* Start Button */}
-          <button className="w-full py-4 bg-[#90EE90] text-black border-[3px] border-black rounded-lg font-bold text-lg shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_rgba(0,0,0,1)] hover:-translate-y-1 active:translate-y-0 transition-all flex items-center justify-center gap-2">
+          <button className="w-full py-5 bg-[#C8FF6D] text-black border-[4px] border-black rounded-none font-bold text-[18px] shadow-[6px_6px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_rgba(0,0,0,1)] hover:-translate-y-1 active:translate-y-0 transition-all flex items-center justify-center gap-2">
             <span className="text-xl">▶</span>
             지금 바로 도전
           </button>
 
           {/* Footer Text */}
-          <div className="flex items-center justify-center gap-2 mt-8 text-xs text-gray-600">
-            <div className="w-1.5 h-1.5 bg-black rounded-full"></div>
-            <span className="font-semibold tracking-wider">
+          <div className="flex items-center justify-center gap-3 mt-10 text-[11px] text-gray-500">
+            <div className="w-1.5 h-1.5 bg-gray-500 rounded-full"></div>
+            <span className="font-semibold tracking-[0.15em]">
               DORIV LEARNING SYSTEM
             </span>
-            <div className="w-1.5 h-1.5 bg-black rounded-full"></div>
+            <div className="w-1.5 h-1.5 bg-gray-500 rounded-full"></div>
           </div>
         </div>
       </div>
