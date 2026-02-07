@@ -78,10 +78,13 @@ export default function InterviewPage() {
           </div>
 
           {/* Start Button */}
-          <button className="w-full py-5 bg-[#C8FF6D] text-black border-[4px] border-black rounded-none font-bold text-[18px] shadow-[6px_6px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_rgba(0,0,0,1)] hover:-translate-y-1 active:translate-y-0 transition-all flex items-center justify-center gap-2">
+          <Link
+            href="/quiz"
+            className="w-full py-5 bg-[#C8FF6D] text-black border-[4px] border-black rounded-none font-bold text-[18px] shadow-[6px_6px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_rgba(0,0,0,1)] hover:-translate-y-1 active:translate-y-0 transition-all flex items-center justify-center gap-2"
+          >
             <span className="text-xl">▶</span>
             지금 바로 도전
-          </button>
+          </Link>
 
           {/* Footer Text */}
           <div className="flex items-center justify-center gap-3 mt-10 text-[11px] text-gray-500">
