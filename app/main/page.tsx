@@ -80,31 +80,33 @@ export default function MainPage() {
             </div>
 
             {/* Add Notion Page Card */}
-            <div className="bg-white border-[3px] border-black rounded-lg p-10 shadow-[4px_4px_0px_rgba(0,0,0,1)] relative flex flex-col items-center text-center min-h-[280px]">
-              <div className="absolute top-6 left-6 w-3 h-3 bg-[#FF4444] rounded-full border-2 border-black"></div>
-              <div className="absolute bottom-6 right-6 w-4 h-4 bg-[#FEE500] border-2 border-black rounded-sm"></div>
-              {/* Clipboard Icon */}
-              <div className="absolute bottom-5 left-6 w-5 h-6 border-2 border-black rounded-sm bg-white relative">
-                <div className="absolute -top-[4px] left-1/2 -translate-x-1/2 w-3 h-2 bg-black rounded-t-sm"></div>
-              </div>
-              <button className="absolute top-5 right-6 text-2xl cursor-pointer font-bold text-gray-600 hover:text-black">
-                ×
-              </button>
-
-              <div className="flex flex-col items-center gap-4">
-                <div className="w-20 h-20 border-4 border-black rounded-full flex items-center justify-center text-5xl font-light text-black">
-                  +
+            <Link href="/import" className="block">
+              <div className="bg-white border-[3px] border-black rounded-lg p-10 shadow-[4px_4px_0px_rgba(0,0,0,1)] relative flex flex-col items-center text-center min-h-[280px] hover:shadow-[6px_6px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transition-all cursor-pointer">
+                <div className="absolute top-6 left-6 w-3 h-3 bg-[#FF4444] rounded-full border-2 border-black"></div>
+                <div className="absolute bottom-6 right-6 w-4 h-4 bg-[#FEE500] border-2 border-black rounded-sm"></div>
+                {/* Clipboard Icon */}
+                <div className="absolute bottom-5 left-6 w-5 h-6 border-2 border-black rounded-sm bg-white relative">
+                  <div className="absolute -top-[4px] left-1/2 -translate-x-1/2 w-3 h-2 bg-black rounded-t-sm"></div>
                 </div>
-                <h2 className="text-[22px] font-bold m-0 text-black">
-                  노션 페이지 블리오기
-                </h2>
-                <p className="text-[13px] text-gray-600 leading-relaxed m-0">
-                  최신 노트를 등기에하여 즉시 플래시카드로 생성하세요. 토, 목록,
-                  <br />
-                  토글을 지원합니다.
-                </p>
+                <button className="absolute top-5 right-6 text-2xl cursor-pointer font-bold text-gray-600 hover:text-black">
+                  ×
+                </button>
+
+                <div className="flex flex-col items-center gap-4">
+                  <div className="w-20 h-20 border-4 border-black rounded-full flex items-center justify-center text-5xl font-light text-black">
+                    +
+                  </div>
+                  <h2 className="text-[22px] font-bold m-0 text-black">
+                    노션 페이지 블리오기
+                  </h2>
+                  <p className="text-[13px] text-gray-600 leading-relaxed m-0">
+                    최신 노트를 등기에하여 즉시 플래시카드로 생성하세요. 토, 목록,
+                    <br />
+                    토글을 지원합니다.
+                  </p>
+                </div>
               </div>
-            </div>
+            </Link>
 
             {/* Stats */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
