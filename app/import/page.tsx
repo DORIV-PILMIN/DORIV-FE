@@ -71,7 +71,7 @@ export default function ImportPage() {
         <div className="border-4 border-dashed border-black rounded-lg p-12 mb-12">
           <div className="flex flex-col items-center gap-6">
             {/* Link Icon */}
-            <div className="w-16 h-16 bg-[#90EE90] border-3 border-black rounded-full flex items-center justify-center">
+            <div className="w-16 h-16 bg-[#90EE90] border-[3px] border-black rounded-full flex items-center justify-center shadow-[3px_3px_0px_rgba(0,0,0,1)]">
               <svg
                 className="w-8 h-8"
                 fill="none"
@@ -97,7 +97,7 @@ export default function ImportPage() {
             </div>
 
             {/* URL Input */}
-            <div className="w-full flex items-center border-3 border-black rounded overflow-hidden">
+            <div className="w-full flex items-center border-[3px] border-black rounded overflow-hidden shadow-[3px_3px_0px_rgba(0,0,0,1)]">
               <div className="flex items-center gap-2 px-4 py-3 flex-1">
                 <svg
                   className="w-5 h-5 text-gray-400"
@@ -118,7 +118,7 @@ export default function ImportPage() {
                   className="flex-1 outline-none text-sm"
                 />
               </div>
-              <button className="px-6 py-3 bg-white border-l-3 border-black font-bold text-sm hover:bg-gray-100 transition-colors">
+              <button className="px-6 py-3 bg-white border-l-[3px] border-black font-bold text-sm hover:bg-gray-100 transition-colors">
                 PASTE
               </button>
             </div>
@@ -134,16 +134,16 @@ export default function ImportPage() {
             </button>
           </div>
 
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-5">
             {recentPages.map((page) => (
               <div
                 key={page.id}
-                className="flex items-center gap-4 p-5 bg-white border-3 border-black rounded-lg hover:shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transition-all cursor-pointer"
+                className="flex items-center gap-4 p-5 bg-white border-[3px] border-black rounded-lg shadow-[3px_3px_0px_rgba(0,0,0,1)] hover:shadow-[5px_5px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transition-all cursor-pointer"
                 onClick={() => togglePage(page.id)}
               >
                 {/* Checkbox */}
                 <div
-                  className={`w-6 h-6 border-3 border-black rounded flex items-center justify-center cursor-pointer ${
+                  className={`w-6 h-6 border-[3px] border-black rounded flex items-center justify-center cursor-pointer ${
                     selectedPages.includes(page.id)
                       ? "bg-black"
                       : "bg-white"
@@ -197,7 +197,7 @@ export default function ImportPage() {
         </div>
 
         {/* Submit Button */}
-        <button className="w-full py-4 bg-[#90EE90] text-black border-3 border-black rounded-lg font-bold text-lg hover:shadow-[6px_6px_0px_rgba(0,0,0,1)] hover:-translate-y-1 active:translate-y-0 transition-all flex items-center justify-center gap-2">
+        <button className="w-full py-4 bg-[#90EE90] text-black border-[3px] border-black rounded-lg font-bold text-lg shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_rgba(0,0,0,1)] hover:-translate-y-1 active:translate-y-0 transition-all flex items-center justify-center gap-2">
           연동 완료 →
         </button>
       </main>
