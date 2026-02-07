@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function MainPage() {
   return (
@@ -183,12 +184,12 @@ export default function MainPage() {
                 </div>
               </div>
 
-              <a
-                href="#"
+              <Link
+                href="/problems"
                 className="block text-center text-black text-[13px] font-semibold no-underline py-3 border-2 border-black rounded hover:bg-[#FEE500] transition-colors"
               >
                 전체 기록 보기 →
-              </a>
+              </Link>
             </div>
           </div>
         </div>
