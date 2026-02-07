@@ -73,9 +73,12 @@ export default function MainPage() {
                   , 미니 인터뷰 시작입니다!
                 </p>
               </div>
-              <button className="absolute bottom-6 right-6 bg-[#FEE500] text-black border-2 border-black rounded px-6 py-3 text-sm font-bold cursor-pointer hover:-translate-y-0.5 transition-transform">
+              <Link
+                href="/interview"
+                className="absolute bottom-6 right-6 bg-[#FEE500] text-black border-2 border-black rounded px-6 py-3 text-sm font-bold cursor-pointer hover:-translate-y-0.5 transition-transform"
+              >
                 지금 시작하기 →
-              </button>
+              </Link>
             </div>
 
             {/* Add Notion Page Card */}
