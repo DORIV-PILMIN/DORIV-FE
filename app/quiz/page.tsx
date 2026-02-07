@@ -68,7 +68,10 @@ export default function QuizPage() {
 
         {/* Submit Button */}
         <div className="flex justify-end">
-          <button className="px-8 py-4 bg-[#C8FF6D] text-black border-[4px] border-black font-bold text-[16px] shadow-[6px_6px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_rgba(0,0,0,1)] hover:-translate-y-1 active:translate-y-0 transition-all flex items-center gap-2">
+          <Link
+            href="/result"
+            className="px-8 py-4 bg-[#C8FF6D] text-black border-[4px] border-black font-bold text-[16px] shadow-[6px_6px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_rgba(0,0,0,1)] hover:-translate-y-1 active:translate-y-0 transition-all flex items-center gap-2"
+          >
             답변 완료
             <svg
               className="w-5 h-5"
@@ -83,7 +86,7 @@ export default function QuizPage() {
                 d="M5 13l4 4L19 7"
               />
             </svg>
-          </button>
+          </Link>
         </div>
       </main>
     </div>
