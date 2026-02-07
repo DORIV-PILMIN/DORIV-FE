@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { LuTimer, LuBrain } from "react-icons/lu";
 
 export default function ResultPage() {
   return (
@@ -109,7 +110,7 @@ export default function ResultPage() {
             {/* Time */}
             <div className="bg-white border-[4px] border-black p-7 text-center shadow-[4px_4px_0px_rgba(0,0,0,1)]">
               <div className="text-[15px] font-bold text-black mb-3 flex items-center justify-center gap-2">
-                <span className="text-lg">⏱️</span>
+                <LuTimer className="w-5 h-5" strokeWidth={2.5} />
                 답변 시간
               </div>
               <div className="text-[44px] font-bold text-black">45초</div>
@@ -118,7 +119,7 @@ export default function ResultPage() {
             {/* Accuracy */}
             <div className="bg-white border-[4px] border-black p-7 text-center shadow-[4px_4px_0px_rgba(0,0,0,1)]">
               <div className="text-[15px] font-bold text-black mb-3 flex items-center justify-center gap-2">
-                <span className="text-lg">🧠</span>
+                <LuBrain className="w-5 h-5" strokeWidth={2.5} />
                 기억 정확도
               </div>
               <div className="text-[44px] font-bold text-black">95%</div>
