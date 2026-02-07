@@ -5,48 +5,33 @@ export default function ProblemsPage() {
   const problems = [
     {
       id: 1,
-      category: "Frontend",
-      date: "2023.10.24",
       title: "React Hooks Deep Dive",
       description: "useCallback과 useMemo의 차이와 관한 면접",
-      difficulty: "초급",
-      difficultyColor: "green",
+      status: "통과",
     },
     {
       id: 2,
-      category: "CS Basics",
-      date: "2023.10.23",
       title: "Javascript Closures",
       description: "실전 면접으로 떠나기 전 마지막 준비 이해와 이해",
-      difficulty: "심화",
-      difficultyColor: "red",
+      status: "통과",
     },
     {
       id: 3,
-      category: "Algorithm",
-      date: "2023.10.22",
       title: "Dynamic Programming (DP)",
       description: "메모 문제 (Knapsack Problem) 에 대한 풀이",
-      difficulty: "심화",
-      difficultyColor: "red",
+      status: "실패",
     },
     {
       id: 4,
-      category: "Network",
-      date: "2023.10.21",
       title: "HTTP Methods & Status Codes",
       description: "RESTful API와 함께 하는 매력",
-      difficulty: "초급",
-      difficultyColor: "green",
+      status: "통과",
     },
     {
       id: 5,
-      category: "TypeScript",
-      date: "2023.10.18",
       title: "Advanced Generics",
       description: "Conditional Types와 infer 키워드 학습",
-      difficulty: "심화",
-      difficultyColor: "red",
+      status: "실패",
     },
   ];
 
@@ -139,15 +124,6 @@ export default function ProblemsPage() {
               >
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-3">
-                      <span className="px-3 py-1 bg-white text-black border-2 border-black rounded text-xs font-bold">
-                        {problem.category}
-                      </span>
-                      <span className="text-xs text-gray-600">
-                        {problem.date}
-                      </span>
-                    </div>
-
                     <h3 className="text-xl font-bold mb-2 text-black">
                       {problem.title}
                     </h3>
@@ -160,12 +136,12 @@ export default function ProblemsPage() {
                   <div className="ml-6">
                     <span
                       className={`px-4 py-2 rounded text-sm font-bold border-2 border-black ${
-                        problem.difficultyColor === "green"
+                        problem.status === "통과"
                           ? "bg-[#90EE90] text-black"
                           : "bg-[#FF6B6B] text-white"
                       }`}
                     >
-                      {problem.difficulty}
+                      {problem.status}
                     </span>
                   </div>
                 </div>
