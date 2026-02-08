@@ -1,46 +1,11 @@
-import Image from "next/image";
 import Link from "next/link";
+import Header from "@/components/Header";
 
 export default function MainPage() {
   return (
     <div className="min-h-screen bg-[#FAFAFA]">
       {/* Header */}
-      <header className="flex items-center justify-between px-10 py-4 bg-white border-b-2 border-black">
-        <Image
-          src="/icons/DORIV.png"
-          alt="DORIV"
-          width={120}
-          height={35}
-          className="w-auto h-auto"
-          priority
-        />
-
-        <div className="flex-1 max-w-[400px] mx-10 flex items-center border-2 border-black rounded overflow-hidden">
-          <input
-            type="text"
-            placeholder="주제 검색..."
-            className="flex-1 px-4 py-2.5 border-0 outline-none text-sm"
-          />
-          <button className="px-4 py-2.5 bg-[#FEE500] border-l-2 border-black cursor-pointer hover:bg-[#FFD700] flex items-center justify-center">
-            <div className="w-4 h-4 border-2 border-black rounded-full relative">
-              <div className="absolute -bottom-[6px] -right-[6px] w-[2px] h-[6px] bg-black rotate-45"></div>
-            </div>
-          </button>
-        </div>
-
-        <div className="flex items-center gap-3">
-          <div className="text-right">
-            <div className="text-sm font-bold text-black">Alex M.</div>
-            <div className="text-[11px] text-gray-600">Pro User</div>
-          </div>
-          <div className="w-11 h-11 rounded-full bg-[#E8E8E8] border-2 border-black flex items-center justify-center relative overflow-hidden">
-            {/* Head */}
-            <div className="absolute top-[8px] w-[14px] h-[14px] bg-black rounded-full"></div>
-            {/* Body */}
-            <div className="absolute bottom-[2px] w-[24px] h-[16px] bg-black rounded-t-full"></div>
-          </div>
-        </div>
-      </header>
+      <Header variant="main" showSearch showProfile />
 
       {/* Main Content */}
       <main className="px-10 py-10 max-w-[1400px] mx-auto">
@@ -91,8 +56,9 @@ export default function MainPage() {
                 <div className="absolute bottom-6 right-6 w-4 h-4 bg-[#FEE500] border-2 border-black rounded-sm"></div>
 
                 <div className="flex flex-col items-center gap-4">
-                  <div className="w-20 h-20 border-4 border-black rounded-full flex items-center justify-center text-5xl font-light text-black">
-                    +
+                  <div className="relative w-20 h-20 border-4 border-black rounded-full flex items-center justify-center text-5xl font-light text-black group">
+                    <div className="absolute inset-0 rounded-full bg-[#FEE500] scale-0 group-hover:scale-110 transition-transform duration-300 ease-out -z-10"></div>
+                    <span className="relative z-10">+</span>
                   </div>
                   <h2 className="text-[22px] font-bold m-0 text-black">
                     노션 페이지 블러오기

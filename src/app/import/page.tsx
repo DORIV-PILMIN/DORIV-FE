@@ -1,8 +1,7 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
 import { useState } from "react";
+import Header from "@/components/Header";
 
 export default function ImportPage() {
   const [selectedPages, setSelectedPages] = useState<number[]>([1]);
@@ -39,21 +38,7 @@ export default function ImportPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="flex items-center justify-between px-8 py-4 border-b-2 border-black">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-[#90EE90] border-2 border-black rounded-lg flex items-center justify-center">
-            <div className="text-2xl">🎓</div>
-          </div>
-          <span className="text-xl font-bold">DORIV</span>
-        </div>
-
-        <Link
-          href="/main"
-          className="w-10 h-10 border-2 border-black rounded flex items-center justify-center hover:bg-gray-100 transition-colors"
-        >
-          <span className="text-2xl font-bold">×</span>
-        </Link>
-      </header>
+      <Header variant="close" closeLink="/main" />
 
       {/* Main Content */}
       <main className="max-w-[900px] mx-auto px-8 py-12">

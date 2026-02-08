@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import Header from "@/components/Header";
 
 export default function QuizPage() {
   const [answer, setAnswer] = useState("");
@@ -9,19 +10,7 @@ export default function QuizPage() {
   return (
     <div className="min-h-screen bg-[#FAFAFA]">
       {/* Header */}
-      <header className="flex items-center justify-between px-8 py-5 bg-white border-b-2 border-black">
-        <div className="flex items-center gap-1">
-          <span className="text-2xl font-bold text-black">DORIV</span>
-          <span className="text-2xl font-bold text-[#C8FF6D]">.</span>
-        </div>
-
-        <Link
-          href="/main"
-          className="w-12 h-12 border-[3px] border-black bg-white flex items-center justify-center hover:bg-gray-100 transition-colors"
-        >
-          <span className="text-2xl font-bold">×</span>
-        </Link>
-      </header>
+      <Header variant="close" closeLink="/main" />
 
       {/* Large Question Mark - Left Side */}
       <div className="fixed left-8 top-64 text-[200px] font-bold text-[#E8E8E8] select-none pointer-events-none leading-none z-0">

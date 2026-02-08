@@ -1,5 +1,4 @@
-import Image from "next/image";
-import Link from "next/link";
+import Header from "@/components/Header";
 
 export default function ProblemsPage() {
   const problems = [
@@ -38,26 +37,7 @@ export default function ProblemsPage() {
   return (
     <div className="min-h-screen bg-[#FAFAFA] relative">
       {/* Header */}
-      <header className="flex items-center justify-between px-10 py-4 bg-white border-b-2 border-black">
-        <div className="flex items-center gap-4">
-          <Image
-            src="/icons/DORIV.png"
-            alt="DORIV"
-            width={100}
-            height={30}
-            className="w-auto h-auto"
-            priority
-          />
-        </div>
-
-        <Link
-          href="/main"
-          className="flex items-center gap-2 px-4 py-2 border-2 border-black rounded bg-white hover:bg-gray-100 transition-colors"
-        >
-          <span className="text-lg">←</span>
-          <span className="text-sm font-semibold">대시보드로 돌아가기</span>
-        </Link>
-      </header>
+      <Header variant="simple" />
 
       {/* Main Content */}
       <div className="flex">
