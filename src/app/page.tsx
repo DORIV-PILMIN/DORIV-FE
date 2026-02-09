@@ -1,6 +1,47 @@
+"use client";
+
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { getOAuthLoginUrl, saveOAuthState } from "@/lib/utils/oauth";
 
 export default function Home() {
+  const searchParams = useSearchParams();
+  const [showError, setShowError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    const error = searchParams.get("error");
+    if (error === "oauth_failed") {
+      setErrorMessage("로그인에 실패했습니다.\n다시 시도해주세요.");
+      setShowError(true);
+    }
+  }, [searchParams]);
+
+  const handleGoogleLogin = async () => {
+    try {
+      saveOAuthState("google");
+      const loginUrl = await getOAuthLoginUrl("google");
+      window.location.href = loginUrl;
+    } catch (error) {
+      console.error("Google login error:", error);
+      setErrorMessage("Google 로그인을 시작할 수 없습니다.");
+      setShowError(true);
+    }
+  };
+
+  const handleKakaoLogin = async () => {
+    try {
+      saveOAuthState("kakao");
+      const loginUrl = await getOAuthLoginUrl("kakao");
+      window.location.href = loginUrl;
+    } catch (error) {
+      console.error("Kakao login error:", error);
+      setErrorMessage("카카오 로그인을 시작할 수 없습니다.");
+      setShowError(true);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#E8C547] flex flex-col items-center justify-center p-5 relative">
       <div className="flex w-full max-w-[900px] h-[550px] bg-white border-4 border-black rounded-lg overflow-hidden shadow-[8px_8px_0px_rgba(0,0,0,1)]">
@@ -24,19 +65,26 @@ export default function Home() {
           </h1>
 
           <p className="text-sm text-gray-600 mb-8 leading-relaxed border-l-[3px] border-black pl-3">
-            그저 적지 마세요.<br />
+            그저 적지 마세요.
+            <br />
             생각을 시작하세요.
           </p>
 
           <div className="flex flex-col gap-3 mb-8">
-            <button className="w-full py-3.5 px-5 border-2 border-black rounded bg-white text-black text-sm font-semibold flex items-center justify-center gap-2 hover:-translate-y-0.5 active:translate-y-0 transition-transform">
+            <button
+              onClick={handleGoogleLogin}
+              className="w-full py-3.5 px-5 border-2 border-black rounded bg-white text-black text-sm font-semibold flex items-center justify-center gap-2 hover:-translate-y-0.5 active:translate-y-0 transition-transform"
+            >
               <span className="w-5 h-5 bg-white border-2 border-black rounded-sm flex items-center justify-center text-xs font-bold">
                 G
               </span>
               Google로 계속하기
             </button>
 
-            <button className="w-full py-3.5 px-5 border-2 border-black rounded bg-[#FEE500] text-black text-sm font-semibold flex items-center justify-center gap-2 hover:-translate-y-0.5 active:translate-y-0 transition-transform">
+            <button
+              onClick={handleKakaoLogin}
+              className="w-full py-3.5 px-5 border-2 border-black rounded bg-[#FEE500] text-black text-sm font-semibold flex items-center justify-center gap-2 hover:-translate-y-0.5 active:translate-y-0 transition-transform"
+            >
               {/* Kakao Speech Bubble */}
               <div className="relative w-5 h-4 bg-black rounded-lg">
                 <div className="absolute w-1 h-1 bg-black left-[2px] bottom-[-3px] rotate-45"></div>
@@ -119,22 +167,26 @@ export default function Home() {
       </div>
 
       {/* Error Alert */}
-      <div className="fixed bottom-10 left-1/2 -translate-x-1/2 bg-[#FF4444] border-4 border-black rounded-md p-4 flex items-center gap-3 shadow-[4px_4px_0px_rgba(0,0,0,1)] min-w-[320px]">
-        {/* Warning Icon - Pure CSS */}
-        <div className="relative w-8 h-8 bg-white rounded-full flex items-center justify-center border-2 border-black">
-          <div className="flex flex-col items-center gap-[2px]">
-            <div className="w-[3px] h-[10px] bg-black rounded-full"></div>
-            <div className="w-[3px] h-[3px] bg-black rounded-full"></div>
+      {showError && (
+        <div className="fixed bottom-10 left-1/2 -translate-x-1/2 bg-[#FF4444] border-4 border-black rounded-md p-4 flex items-center gap-3 shadow-[4px_4px_0px_rgba(0,0,0,1)] min-w-[320px]">
+          {/* Warning Icon - Pure CSS */}
+          <div className="relative w-8 h-8 bg-white rounded-full flex items-center justify-center border-2 border-black">
+            <div className="flex flex-col items-center gap-[2px]">
+              <div className="w-[3px] h-[10px] bg-black rounded-full"></div>
+              <div className="w-[3px] h-[3px] bg-black rounded-full"></div>
+            </div>
           </div>
+          <div className="flex-1 text-white text-sm font-semibold leading-snug whitespace-pre-line">
+            {errorMessage}
+          </div>
+          <button
+            onClick={() => setShowError(false)}
+            className="bg-transparent border-0 text-white text-2xl cursor-pointer p-0 w-6 h-6 flex items-center justify-center font-bold hover:opacity-80"
+          >
+            ×
+          </button>
         </div>
-        <div className="flex-1 text-white text-sm font-semibold leading-snug">
-          <div>로그인에 실패했습니다.</div>
-          <div>다시 시도해주세요.</div>
-        </div>
-        <button className="bg-transparent border-0 text-white text-2xl cursor-pointer p-0 w-6 h-6 flex items-center justify-center font-bold hover:opacity-80">
-          ×
-        </button>
-      </div>
+      )}
     </div>
   );
 }
