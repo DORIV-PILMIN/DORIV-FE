@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { loginWithOAuth, saveTokens } from "@/lib/api/auth";
+import { loginWithOAuth, saveTokens, saveUser } from "@/lib/api/auth";
 import { clearOAuthState, getRedirectUri } from "@/lib/utils/oauth";
 
 export default function KakaoCallbackPage() {
@@ -37,8 +37,9 @@ export default function KakaoCallbackPage() {
           codeVerifier,
         });
 
-        // 토큰 저장
+        // 토큰 및 사용자 정보 저장
         saveTokens(response.tokens);
+        saveUser(response.user);
 
         // 상태 정리
         clearOAuthState();

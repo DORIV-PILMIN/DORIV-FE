@@ -1,7 +1,19 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import Header from "@/components/Header";
+import { getUser } from "@/lib/api/auth";
 
 export default function MainPage() {
+  const [userName, setUserName] = useState("사용자");
+
+  useEffect(() => {
+    const user = getUser();
+    if (user) {
+      setUserName(user.name);
+    }
+  }, []);
   return (
     <div className="min-h-screen bg-[#FAFAFA]">
       {/* Header */}
@@ -12,7 +24,7 @@ export default function MainPage() {
         {/* Welcome Section */}
         <div className="mb-8">
           <h1 className="text-[32px] font-bold mb-2 text-black">
-            반가워요, Alex님!
+            반가워요, {userName}님!
           </h1>
           <p className="text-sm text-black py-2 px-4 border-2 border-black rounded inline-block m-0">
             기억력을 향상시킬 준비가 되셨나요?
