@@ -1,5 +1,10 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { getUser, logout } from "@/lib/api/auth";
 
 interface HeaderProps {
   variant?: "main" | "simple" | "close";
@@ -14,6 +19,23 @@ export default function Header({
   showProfile = false,
   closeLink = "/main",
 }: HeaderProps) {
+  const router = useRouter();
+  const [userName, setUserName] = useState("사용자");
+  const [profileImage, setProfileImage] = useState<string | null>(null);
+  const [showLogoutMenu, setShowLogoutMenu] = useState(false);
+
+  useEffect(() => {
+    const user = getUser();
+    if (user) {
+      setUserName(user.name);
+      setProfileImage(user.profileImage);
+    }
+  }, []);
+
+  const handleLogout = () => {
+    logout();
+    router.push("/");
+  };
   return (
     <header className="flex items-center justify-between px-8 py-4 bg-white border-b-2 border-black">
       {/* Logo */}
@@ -48,18 +70,45 @@ export default function Header({
       <div className="flex items-center gap-3">
         {/* Profile - Only on main page */}
         {showProfile && (
-          <>
-            <div className="text-right">
-              <div className="text-sm font-bold text-black">Alex M.</div>
-              <div className="text-[11px] text-gray-600">Pro User</div>
+          <div className="relative">
+            <div className="flex items-center gap-3">
+              <div className="text-right">
+                <div className="text-sm font-bold text-black">{userName}</div>
+                <div className="text-[11px] text-gray-600">DORIV User</div>
+              </div>
+              <button
+                onClick={() => setShowLogoutMenu(!showLogoutMenu)}
+                className="w-11 h-11 rounded-full bg-[#E8E8E8] border-2 border-black flex items-center justify-center relative overflow-hidden hover:opacity-80 transition-opacity"
+              >
+                {profileImage ? (
+                  <img
+                    src={profileImage}
+                    alt={userName}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <>
+                    {/* Head */}
+                    <div className="absolute top-[8px] w-[14px] h-[14px] bg-black rounded-full"></div>
+                    {/* Body */}
+                    <div className="absolute bottom-[2px] w-[24px] h-[16px] bg-black rounded-t-full"></div>
+                  </>
+                )}
+              </button>
             </div>
-            <div className="w-11 h-11 rounded-full bg-[#E8E8E8] border-2 border-black flex items-center justify-center relative overflow-hidden">
-              {/* Head */}
-              <div className="absolute top-[8px] w-[14px] h-[14px] bg-black rounded-full"></div>
-              {/* Body */}
-              <div className="absolute bottom-[2px] w-[24px] h-[16px] bg-black rounded-t-full"></div>
-            </div>
-          </>
+
+            {/* Logout Menu */}
+            {showLogoutMenu && (
+              <div className="absolute right-0 top-[calc(100%+8px)] bg-white border-2 border-black rounded shadow-[4px_4px_0px_rgba(0,0,0,1)] min-w-[150px] z-50">
+                <button
+                  onClick={handleLogout}
+                  className="w-full px-4 py-2.5 text-sm font-semibold text-left hover:bg-[#FEE500] transition-colors border-0"
+                >
+                  로그아웃
+                </button>
+              </div>
+            )}
+          </div>
         )}
 
         {/* Back to Dashboard Button - For other pages */}

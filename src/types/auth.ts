@@ -38,3 +38,11 @@ export interface OAuthErrorResponse {
   error: string;
   message: string;
 }
+
+// Refresh Token 요청
+export interface RefreshTokenRequest {
+  refreshToken: string;
+}
+
+// Refresh Token 응답 (OAuth 로그인 응답과 동일)
+export type RefreshTokenResponse = OAuthLoginResponse;
