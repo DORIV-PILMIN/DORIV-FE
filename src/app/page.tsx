@@ -44,9 +44,9 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[#E8C547] flex flex-col items-center justify-center p-5 relative">
-      <div className="flex w-full max-w-[900px] h-[550px] bg-white border-4 border-black rounded-lg overflow-hidden shadow-[8px_8px_0px_rgba(0,0,0,1)]">
+      <div className="flex flex-col lg:flex-row w-full max-w-[900px] min-h-[550px] bg-white border-4 border-black rounded-lg overflow-hidden shadow-[8px_8px_0px_rgba(0,0,0,1)]">
         {/* Left Section */}
-        <div className="flex-1 p-10 flex flex-col bg-white">
+        <div className="flex-1 p-6 sm:p-8 lg:p-10 flex flex-col bg-white min-h-[500px] lg:min-h-[550px]">
           <div className="bg-black text-white px-3 py-1 text-[11px] font-bold tracking-wider w-fit mb-5">
             EST. 2026
           </div>
@@ -56,24 +56,24 @@ export default function Home() {
             alt="DORIV Logo"
             width={280}
             height={80}
-            className="mb-5 w-auto h-auto"
+            className="mb-4 sm:mb-5 w-auto h-auto max-w-[200px] sm:max-w-[280px]"
             priority
           />
 
-          <h1 className="text-2xl font-bold mb-3 text-black">
+          <h1 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-3 text-black">
             노트에서 기억으로
           </h1>
 
-          <p className="text-sm text-gray-600 mb-8 leading-relaxed border-l-[3px] border-black pl-3">
+          <p className="text-sm text-gray-600 mb-6 sm:mb-8 leading-relaxed border-l-[3px] border-black pl-3">
             그저 적지 마세요.
             <br />
             생각을 시작하세요.
           </p>
 
-          <div className="flex flex-col gap-3 mb-8">
+          <div className="flex flex-col gap-3 mb-6 sm:mb-8">
             <button
               onClick={handleGoogleLogin}
-              className="w-full py-3.5 px-5 border-2 border-black rounded bg-white text-black text-sm font-semibold flex items-center justify-center gap-2 hover:-translate-y-0.5 active:translate-y-0 transition-transform"
+              className="w-full py-3 sm:py-3.5 px-4 sm:px-5 border-2 border-black rounded bg-white text-black text-sm font-semibold flex items-center justify-center gap-2 hover:-translate-y-0.5 active:translate-y-0 transition-transform"
             >
               <span className="w-5 h-5 bg-white border-2 border-black rounded-sm flex items-center justify-center text-xs font-bold">
                 G
@@ -83,7 +83,7 @@ export default function Home() {
 
             <button
               onClick={handleKakaoLogin}
-              className="w-full py-3.5 px-5 border-2 border-black rounded bg-[#FEE500] text-black text-sm font-semibold flex items-center justify-center gap-2 hover:-translate-y-0.5 active:translate-y-0 transition-transform"
+              className="w-full py-3 sm:py-3.5 px-4 sm:px-5 border-2 border-black rounded bg-[#FEE500] text-black text-sm font-semibold flex items-center justify-center gap-2 hover:-translate-y-0.5 active:translate-y-0 transition-transform"
             >
               {/* Kakao Speech Bubble */}
               <div className="relative w-5 h-4 bg-black rounded-lg">
@@ -93,18 +93,18 @@ export default function Home() {
             </button>
           </div>
 
-          <div className="flex gap-4 mt-auto">
-            <a href="#" className="text-xs text-black underline hover:no-underline cursor-pointer">
+          <div className="flex gap-3 sm:gap-4 mt-auto pt-4">
+            <a href="#" className="text-xs text-black underline hover:no-underline cursor-pointer whitespace-nowrap">
               이용약관
             </a>
-            <a href="#" className="text-xs text-black underline hover:no-underline cursor-pointer">
+            <a href="#" className="text-xs text-black underline hover:no-underline cursor-pointer whitespace-nowrap">
               개인정보처리방침
             </a>
           </div>
         </div>
 
         {/* Right Section */}
-        <div className="flex-1 bg-[#E8E8E8] relative flex items-center justify-center border-l-[3px] border-black">
+        <div className="hidden lg:flex flex-1 bg-[#E8E8E8] relative items-center justify-center border-l-[3px] border-black min-h-[400px]">
           {/* Background decorations */}
           <div className="absolute top-[30px] right-[30px] w-5 h-5 bg-black rounded-sm"></div>
           <div className="absolute top-[140px] left-[20px] w-5 h-5 bg-[#FF6B6B] border-2 border-black rounded-sm rotate-12"></div>
