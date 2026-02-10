@@ -4,6 +4,8 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { getOAuthLoginUrl, saveOAuthState } from "@/lib/utils/oauth";
+import { FcGoogle } from "react-icons/fc";
+import { RiKakaoTalkFill } from "react-icons/ri";
 
 export default function Home() {
   const searchParams = useSearchParams();
@@ -75,9 +77,7 @@ export default function Home() {
               onClick={handleGoogleLogin}
               className="w-full py-3 sm:py-3.5 px-4 sm:px-5 border-2 border-black rounded bg-white text-black text-sm font-semibold flex items-center justify-center gap-2 hover:-translate-y-0.5 active:translate-y-0 transition-transform"
             >
-              <span className="w-5 h-5 bg-white border-2 border-black rounded-sm flex items-center justify-center text-xs font-bold">
-                G
-              </span>
+              <FcGoogle className="w-5 h-5" />
               Google로 계속하기
             </button>
 
@@ -85,19 +85,26 @@ export default function Home() {
               onClick={handleKakaoLogin}
               className="w-full py-3 sm:py-3.5 px-4 sm:px-5 border-2 border-black rounded bg-[#FEE500] text-black text-sm font-semibold flex items-center justify-center gap-2 hover:-translate-y-0.5 active:translate-y-0 transition-transform"
             >
-              {/* Kakao Speech Bubble */}
-              <div className="relative w-5 h-4 bg-black rounded-lg">
-                <div className="absolute w-1 h-1 bg-black left-[2px] bottom-[-3px] rotate-45"></div>
-              </div>
+              <RiKakaoTalkFill className="w-5 h-5" />
               카카오로 계속하기
             </button>
           </div>
 
           <div className="flex gap-3 sm:gap-4 mt-auto pt-4">
-            <a href="#" className="text-xs text-black underline hover:no-underline cursor-pointer whitespace-nowrap">
+            <a
+              href="https://www.notion.so/DORIV-2fdc4c86c5d780ae8737d5782a3bf784"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-black underline hover:no-underline cursor-pointer whitespace-nowrap"
+            >
               이용약관
             </a>
-            <a href="#" className="text-xs text-black underline hover:no-underline cursor-pointer whitespace-nowrap">
+            <a
+              href="https://www.notion.so/DORIV-2fdc4c86c5d780ae8737d5782a3bf784"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-black underline hover:no-underline cursor-pointer whitespace-nowrap"
+            >
               개인정보처리방침
             </a>
           </div>
