@@ -1,6 +1,52 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+const NOTION_REDIRECT_URI =
+  process.env.NEXT_PUBLIC_NOTION_REDIRECT_URI || process.env.NOTION_REDIRECT_URI;
+
+function getFallbackRedirectUri() {
+  if (NOTION_REDIRECT_URI) {
+    return NOTION_REDIRECT_URI;
+  }
+
+  if (!BACKEND_URL) {
+    return "";
+  }
+
+  try {
+    return new URL("/notion/oauth/callback", BACKEND_URL).toString();
+  } catch {
+    return "";
+  }
+}
+
+function normalizeNotionAuthorizeUrl(rawUrl: string) {
+  try {
+    const parsed = new URL(rawUrl);
+    const isNotionAuthorize =
+      parsed.hostname.includes("notion.com") &&
+      parsed.pathname.includes("/oauth2/v2.0/authorize");
+
+    if (!isNotionAuthorize) {
+      return rawUrl;
+    }
+
+    const redirectUri = parsed.searchParams.get("redirect_uri");
+    if (redirectUri) {
+      return rawUrl;
+    }
+
+    const fallbackRedirectUri = getFallbackRedirectUri();
+    if (!fallbackRedirectUri) {
+      return rawUrl;
+    }
+
+    parsed.searchParams.set("redirect_uri", fallbackRedirectUri);
+    return parsed.toString();
+  } catch {
+    return rawUrl;
+  }
+}
 
 /**
  * Notion OAuth 시작 프록시
@@ -39,7 +85,10 @@ export async function GET(request: NextRequest) {
 
     const location = response.headers.get("location");
     if (location) {
-      return NextResponse.json({ url: location }, { status: 200 });
+      return NextResponse.json(
+        { url: normalizeNotionAuthorizeUrl(location) },
+        { status: 200 }
+      );
     }
 
     const contentType = response.headers.get("content-type") || "";
@@ -48,7 +97,10 @@ export async function GET(request: NextRequest) {
       const url = data?.url || data?.redirectUrl || data?.authorizationUrl;
 
       if (url) {
-        return NextResponse.json({ url }, { status: 200 });
+        return NextResponse.json(
+          { url: normalizeNotionAuthorizeUrl(url) },
+          { status: 200 }
+        );
       }
 
       return NextResponse.json(data, { status: response.status });
