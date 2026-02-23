@@ -72,6 +72,19 @@ export default function ImportPage() {
     searchMutation.mutate({ query: "", pageSize: 10 });
   };
 
+  const handleStartNotionOAuth = async () => {
+    setNotice(null);
+    try {
+      await startNotionOAuth();
+    } catch (error) {
+      setNotice(
+        error instanceof Error
+          ? error.message
+          : "노션 권한 연결 중 오류가 발생했습니다."
+      );
+    }
+  };
+
   const handleConnect = async () => {
     setNotice(null);
 
@@ -194,7 +207,7 @@ export default function ImportPage() {
                 검색
               </button>
               <button
-                onClick={startNotionOAuth}
+                onClick={handleStartNotionOAuth}
                 className="px-6 py-3 bg-white border-[3px] border-black font-bold text-sm hover:bg-gray-100 transition-colors"
               >
                 Notion 권한 연결

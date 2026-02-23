@@ -1,4 +1,5 @@
 import apiClient from "@/lib/api/instance";
+import { getValidAccessToken } from "@/lib/api/auth";
 import {
   NotionSearchPagesRequest,
   NotionSearchPagesResponse,
@@ -36,13 +37,35 @@ export async function createNotionPage(
 
 /**
  * 노션 OAuth 시작
- * GET /notion/oauth/authorize
+ * GET /api/notion/oauth/authorize
  */
-export function startNotionOAuth() {
+export async function startNotionOAuth() {
   if (typeof window === "undefined") {
     return;
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "";
-  window.location.href = `${baseUrl}/notion/oauth/authorize`;
+  const accessToken = await getValidAccessToken();
+  if (!accessToken) {
+    throw new Error("로그인이 필요합니다.");
+  }
+
+  const response = await fetch("/api/notion/oauth/authorize", {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(
+      data?.message || "노션 권한 연결 요청에 실패했습니다."
+    );
+  }
+
+  if (!data?.url) {
+    throw new Error("노션 인증 URL을 받아오지 못했습니다.");
+  }
+
+  window.location.href = data.url;
 }
