@@ -25,7 +25,8 @@ function normalizeNotionAuthorizeUrl(rawUrl: string) {
     const parsed = new URL(rawUrl);
     const isNotionAuthorize =
       parsed.hostname.includes("notion.com") &&
-      parsed.pathname.includes("/oauth2/v2.0/authorize");
+      (parsed.pathname.includes("/oauth2/v2.0/authorize") ||
+        parsed.pathname.includes("/v1/oauth/authorize"));
 
     if (!isNotionAuthorize) {
       return rawUrl;
