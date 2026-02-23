@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { loginWithOAuth, saveTokens, saveUser } from "@/lib/api/auth";
 import { clearOAuthState, getRedirectUri } from "@/lib/utils/oauth";
 
-export default function KakaoCallbackPage() {
+function KakaoCallbackContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [error, setError] = useState<string | null>(null);
@@ -95,5 +95,13 @@ export default function KakaoCallbackPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function KakaoCallbackPage() {
+  return (
+    <Suspense>
+      <KakaoCallbackContent />
+    </Suspense>
   );
 }

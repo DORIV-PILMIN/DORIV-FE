@@ -1,24 +1,24 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { getOAuthLoginUrl, saveOAuthState } from "@/lib/utils/oauth";
 import { FcGoogle } from "react-icons/fc";
 import { RiKakaoTalkFill } from "react-icons/ri";
 
-export default function Home() {
+function HomeContent() {
   const searchParams = useSearchParams();
-  const [showError, setShowError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const oauthFailed = searchParams.get("error") === "oauth_failed";
+  const [runtimeErrorMessage, setRuntimeErrorMessage] = useState("");
+  const [dismissedOAuthError, setDismissedOAuthError] = useState(false);
 
-  useEffect(() => {
-    const error = searchParams.get("error");
-    if (error === "oauth_failed") {
-      setErrorMessage("로그인에 실패했습니다.\n다시 시도해주세요.");
-      setShowError(true);
-    }
-  }, [searchParams]);
+  const errorMessage =
+    runtimeErrorMessage ||
+    (oauthFailed && !dismissedOAuthError
+      ? "로그인에 실패했습니다.\n다시 시도해주세요."
+      : "");
+  const showError = Boolean(errorMessage);
 
   const handleGoogleLogin = async () => {
     try {
@@ -27,8 +27,7 @@ export default function Home() {
       window.location.href = loginUrl;
     } catch (error) {
       console.error("Google login error:", error);
-      setErrorMessage("Google 로그인을 시작할 수 없습니다.");
-      setShowError(true);
+      setRuntimeErrorMessage("Google 로그인을 시작할 수 없습니다.");
     }
   };
 
@@ -39,8 +38,7 @@ export default function Home() {
       window.location.href = loginUrl;
     } catch (error) {
       console.error("Kakao login error:", error);
-      setErrorMessage("카카오 로그인을 시작할 수 없습니다.");
-      setShowError(true);
+      setRuntimeErrorMessage("카카오 로그인을 시작할 수 없습니다.");
     }
   };
 
@@ -187,7 +185,13 @@ export default function Home() {
             {errorMessage}
           </div>
           <button
-            onClick={() => setShowError(false)}
+            onClick={() => {
+              if (runtimeErrorMessage) {
+                setRuntimeErrorMessage("");
+                return;
+              }
+              setDismissedOAuthError(true);
+            }}
             className="bg-transparent border-0 text-white text-2xl cursor-pointer p-0 w-6 h-6 flex items-center justify-center font-bold hover:opacity-80"
           >
             ×
@@ -195,5 +199,13 @@ export default function Home() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense>
+      <HomeContent />
+    </Suspense>
   );
 }

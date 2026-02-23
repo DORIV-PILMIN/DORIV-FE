@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { loginWithOAuth, saveTokens, saveUser } from "@/lib/api/auth";
 import { clearOAuthState, getRedirectUri } from "@/lib/utils/oauth";
 
-export default function GoogleCallbackPage() {
+function GoogleCallbackContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [error, setError] = useState<string | null>(null);
@@ -95,5 +95,13 @@ export default function GoogleCallbackPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function GoogleCallbackPage() {
+  return (
+    <Suspense>
+      <GoogleCallbackContent />
+    </Suspense>
   );
 }
