@@ -20,6 +20,23 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## QA 자동화 에이전트
+
+커밋 전 품질 검증은 아래 흐름을 사용합니다.
+
+```bash
+# 1) 전체 검증(릴리즈 전 권장)
+npm run qa
+
+# 2) 스테이징 후, 변경분 기준 QA 통과 시 자동 커밋
+git add <파일들>
+npm run commit:qa -- feat 푸시 알림 API 연동
+```
+
+- 커밋 메시지는 자동으로 `feat : "푸시 알림 API 연동"` 형태로 생성됩니다.
+- `pre-commit` 훅이 설정되면 수동 `git commit` 시에도 스테이징 파일 기준 QA가 자동 실행됩니다.
+- 훅 설치: `npm run prepare`
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

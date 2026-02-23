@@ -6,9 +6,16 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "qa": "bash ./scripts/qa-agent.sh",
+    "qa:fast": "bash ./scripts/qa-agent.sh --fast",
+    "commit:qa": "bash ./scripts/commit-after-qa.sh",
+    "prepare": "git config core.hooksPath .githooks || true"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.90.21",
+    "axios": "^1.13.5",
     "next": "16.1.6",
     "react": "19.2.3",
     "react-dom": "19.2.3",

@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ "${SKIP_PRECOMMIT_QA:-}" == "1" ]]; then
+  exit 0
+fi
+
+echo "[pre-commit] QA 실행"
+npm run qa -- --staged
