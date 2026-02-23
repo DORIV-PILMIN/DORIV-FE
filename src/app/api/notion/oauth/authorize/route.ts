@@ -31,18 +31,19 @@ function normalizeNotionAuthorizeUrl(rawUrl: string) {
       return rawUrl;
     }
 
-    const redirectUri = parsed.searchParams.get("redirect_uri");
-    if (redirectUri) {
-      return rawUrl;
-    }
-
     const fallbackRedirectUri = getFallbackRedirectUri();
     if (!fallbackRedirectUri) {
       return rawUrl;
     }
 
-    parsed.searchParams.set("redirect_uri", fallbackRedirectUri);
-    return parsed.toString();
+    const redirectUri = parsed.searchParams.get("redirect_uri");
+    // 백엔드가 잘못된 redirect_uri를 내려줘도 프론트 프록시에서 강제 보정
+    if (redirectUri !== fallbackRedirectUri) {
+      parsed.searchParams.set("redirect_uri", fallbackRedirectUri);
+      return parsed.toString();
+    }
+
+    return rawUrl;
   } catch {
     return rawUrl;
   }
