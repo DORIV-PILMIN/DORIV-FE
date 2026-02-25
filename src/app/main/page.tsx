@@ -29,6 +29,13 @@ export default function MainPage() {
   const flashcardCount = statsData?.flashcardCount ?? 1240;
   const retentionRate = statsData?.retentionRate ?? 84;
 
+  const interviewHref = waitingQuestion
+    ? `/interview?${new URLSearchParams({
+        questionId: waitingQuestion.questionId,
+        title: waitingQuestion.title,
+      }).toString()}`
+    : "/interview";
+
   return (
     <div className="min-h-screen bg-[#FAFAFA]">
       <Header variant="main" showSearch showProfile />
@@ -60,11 +67,7 @@ export default function MainPage() {
                 </p>
               </div>
               <Link
-                href={
-                  waitingQuestion
-                    ? `/interview?questionId=${waitingQuestion.questionId}`
-                    : "/interview"
-                }
+                href={interviewHref}
                 className="absolute bottom-6 right-6 bg-[#FEE500] text-black border-2 border-black rounded px-6 py-3 text-sm font-bold cursor-pointer hover:-translate-y-0.5 transition-transform"
               >
                 지금 시작하기 →

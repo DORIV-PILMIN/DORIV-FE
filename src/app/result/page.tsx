@@ -1,11 +1,36 @@
 "use client";
 
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 import { LuTimer, LuBrain } from "react-icons/lu";
 
 export default function ResultPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#7ED957] to-[#8FE66D] relative overflow-hidden">
+    <Suspense fallback={<div className="min-h-screen bg-gradient-to-b from-[#7ED957] to-[#8FE66D]" />}>
+      <ResultPageContent />
+    </Suspense>
+  );
+}
+
+function ResultPageContent() {
+  const searchParams = useSearchParams();
+  const result = searchParams.get("result") === "PASS" ? "PASS" : "FAIL";
+  const score = Number(searchParams.get("score") ?? "0");
+  const title = searchParams.get("title") ?? "면접 질문";
+  const feedback = searchParams.get("feedback") ?? "피드백이 아직 없습니다.";
+
+  const isPass = result === "PASS";
+  const scoreLabel = Number.isNaN(score) ? 0 : Math.max(0, Math.min(100, score));
+
+  return (
+    <div
+      className={`min-h-screen relative overflow-hidden ${
+        isPass
+          ? "bg-gradient-to-b from-[#7ED957] to-[#8FE66D]"
+          : "bg-gradient-to-b from-[#FF9E9E] to-[#FFB6B6]"
+      }`}
+    >
       {/* Decorative Elements */}
       {/* Star - Top Left */}
       <div className="absolute top-14 left-14">
@@ -92,16 +117,16 @@ export default function ResultPage() {
           {/* Success Message */}
           <div className="text-center mb-7">
             <h1 className="text-[36px] font-bold text-black leading-tight">
-              🎉 학습 성공!
+              {isPass ? "🎉 학습 성공!" : "💪 다시 도전!"}
               <br />
-              완전히 이해하셨네요!
+              {isPass ? "완전히 이해하셨네요!" : "조금만 더 다듬어 볼까요?"}
             </h1>
           </div>
 
           {/* Session Info */}
           <div className="text-center mb-10">
             <p className="text-[17px] text-black border-b-[3px] border-black inline-block pb-1 font-medium">
-              운영체제: 데드락 세션을 마스터했습니다.
+              {title}
             </p>
           </div>
 
@@ -122,8 +147,13 @@ export default function ResultPage() {
                 <LuBrain className="w-5 h-5" strokeWidth={2.5} />
                 기억 정확도
               </div>
-              <div className="text-[44px] font-bold text-black">95%</div>
+              <div className="text-[44px] font-bold text-black">{scoreLabel}%</div>
             </div>
+          </div>
+
+          <div className="mb-10 bg-white border-[4px] border-black p-6 text-black shadow-[4px_4px_0px_rgba(0,0,0,1)]">
+            <div className="text-[12px] font-bold text-gray-500 tracking-wider mb-2">FEEDBACK</div>
+            <p className="text-[15px] font-medium leading-relaxed">{feedback}</p>
           </div>
 
           {/* Dashboard Button */}

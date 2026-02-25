@@ -1,8 +1,26 @@
 "use client";
 
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
 export default function InterviewPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-gradient-to-br from-[#5B7FE8] via-[#5574E5] to-[#6B5CE7]" />}>
+      <InterviewPageContent />
+    </Suspense>
+  );
+}
+
+function InterviewPageContent() {
+  const searchParams = useSearchParams();
+  const questionId = searchParams.get("questionId") ?? "";
+  const title = searchParams.get("title") ?? "면접 질문";
+
+  const quizHref = questionId
+    ? `/quiz?${new URLSearchParams({ questionId, title }).toString()}`
+    : "/quiz";
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#5B7FE8] via-[#5574E5] to-[#6B5CE7] relative overflow-hidden">
       {/* Dotted Pattern Background */}
@@ -69,7 +87,7 @@ export default function InterviewPage() {
           <div className="border-[4px] border-black rounded-none p-8 mb-12 bg-[#FFFACD]">
             <p className="text-[19px] text-center text-black leading-relaxed font-medium">
               <span className="bg-[#C8FF6D] px-2 py-1 font-bold">
-                [은영체제: 레드락]
+                [{title}]
               </span>{" "}
               에 대해 설명할
               <br />
@@ -79,7 +97,7 @@ export default function InterviewPage() {
 
           {/* Start Button */}
           <Link
-            href="/quiz"
+            href={quizHref}
             className="w-full py-5 bg-[#C8FF6D] text-black border-[4px] border-black rounded-none font-bold text-[18px] shadow-[6px_6px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_rgba(0,0,0,1)] hover:-translate-y-1 active:translate-y-0 transition-all flex items-center justify-center gap-2"
           >
             <span className="text-xl">▶</span>
