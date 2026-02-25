@@ -21,7 +21,7 @@ function formatBadge(result: "PASS" | "FAIL") {
 export default function MainPage() {
   const { data: userData } = useMainUser();
   const { data: questionData, isLoading: isQuestionLoading } = useMainQuestion();
-  const { data: statsData } = useMainStats();
+  const { data: statsData, isLoading: isStatsLoading } = useMainStats();
 
   const userName = userData?.name ?? "사용자";
   const waitingQuestion = questionData?.waitingQuestion;
@@ -29,8 +29,22 @@ export default function MainPage() {
   const waitingQuestionTitle = isQuestionLoading
     ? "대기 질문을 불러오는 중입니다."
     : (waitingQuestion?.title ?? "대기 중인 질문이 없습니다.");
-  const flashcardCount = statsData?.flashcardCount ?? 1240;
-  const retentionRate = statsData?.retentionRate ?? 84;
+  const rawFlashcardCount = statsData?.flashcardCount ?? 0;
+  const rawRetentionRate = statsData?.retentionRate ?? 0;
+
+  const flashcardCount = Number.isFinite(rawFlashcardCount)
+    ? rawFlashcardCount
+    : 0;
+  const retentionRate = Number.isFinite(rawRetentionRate)
+    ? rawRetentionRate
+    : 0;
+
+  const flashcardCountLabel = isStatsLoading
+    ? "-"
+    : `${flashcardCount.toLocaleString()}개`;
+  const retentionRateLabel = isStatsLoading
+    ? "-"
+    : `${Math.max(0, Math.round(retentionRate))}%`;
 
   const interviewHref = waitingQuestion
     ? `/interview?${new URLSearchParams({
@@ -107,7 +121,7 @@ export default function MainPage() {
                   플래시카드
                 </div>
                 <div className="text-5xl font-bold text-white">
-                  {flashcardCount.toLocaleString()}
+                  {flashcardCountLabel}
                 </div>
               </div>
 
@@ -115,7 +129,7 @@ export default function MainPage() {
                 <div className="text-sm mb-2 font-semibold text-black">
                   기억 유지율
                 </div>
-                <div className="text-5xl font-bold text-black">{retentionRate}%</div>
+                <div className="text-5xl font-bold text-black">{retentionRateLabel}</div>
               </div>
             </div>
           </div>
