@@ -26,6 +26,9 @@ export default function MainPage() {
   const userName = userData?.name ?? "사용자";
   const waitingQuestion = questionData?.waitingQuestion;
   const recentSessions = questionData?.recentSessions ?? [];
+  const waitingQuestionTitle = isQuestionLoading
+    ? "대기 질문을 불러오는 중입니다."
+    : (waitingQuestion?.title ?? "대기 중인 질문이 없습니다.");
   const flashcardCount = statsData?.flashcardCount ?? 1240;
   const retentionRate = statsData?.retentionRate ?? 84;
 
@@ -62,7 +65,7 @@ export default function MainPage() {
               <div className="mb-5 pr-36">
                 <p className="text-sm text-gray-600 m-0">
                   <span className="text-black font-semibold">
-                    {waitingQuestion?.title ?? "대기 중인 질문이 없습니다."}
+                    {waitingQuestionTitle}
                   </span>
                 </p>
               </div>

@@ -3,8 +3,18 @@ import {
   MainUserResponse,
   MainNotionResponse,
   MainQuestionResponse,
+  MainRecentSession,
   MainStatsResponse,
+  MainWaitingQuestion,
 } from "@/types/main";
+
+interface MainQuestionResponseRaw {
+  waitingQuestion?: MainWaitingQuestion | null;
+  watingQuestion?: MainWaitingQuestion | null;
+  recentSessions?: MainRecentSession[];
+  recentQuestions?: MainRecentSession[];
+  recentQuestion?: MainRecentSession | null;
+}
 
 /**
  * 메인 사용자 정보 조회
@@ -29,8 +39,18 @@ export async function getMainNotion(): Promise<MainNotionResponse> {
  * GET /main/question
  */
 export async function getMainQuestion(): Promise<MainQuestionResponse> {
-  const { data } = await apiClient.get<MainQuestionResponse>("/main/question");
-  return data;
+  const { data } = await apiClient.get<MainQuestionResponseRaw>("/main/question");
+
+  const waitingQuestion = data.waitingQuestion ?? data.watingQuestion ?? null;
+  const recentSessions =
+    data.recentSessions ??
+    data.recentQuestions ??
+    (data.recentQuestion ? [data.recentQuestion] : []);
+
+  return {
+    waitingQuestion,
+    recentSessions,
+  };
 }
 
 /**
