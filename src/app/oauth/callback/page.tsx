@@ -2,9 +2,14 @@
 
 import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { loginWithOAuth, saveTokens } from "@/lib/api/auth";
+import {
+  exchangeOAuthCallbackTicket,
+  loginWithOAuth,
+  saveTokens,
+  saveUser,
+} from "@/lib/api/auth";
 import { clearOAuthState, getOAuthState } from "@/lib/utils/oauth";
-import { OAuthProvider } from "@/types/auth";
+import { OAuthLoginResponse, OAuthProvider } from "@/types/auth";
 
 function OAuthCallbackContent() {
   const router = useRouter();
@@ -15,6 +20,7 @@ function OAuthCallbackContent() {
     async function handleCallback() {
       try {
         // URL에서 code와 error 파라미터 추출
+        const ticket = searchParams.get("ticket");
         const code = searchParams.get("code");
         const errorParam = searchParams.get("error");
 
@@ -22,34 +28,40 @@ function OAuthCallbackContent() {
           throw new Error("OAuth 인증에 실패했습니다.");
         }
 
-        if (!code) {
-          throw new Error("인증 코드가 없습니다.");
+        let response: OAuthLoginResponse;
+
+        if (ticket) {
+          response = await exchangeOAuthCallbackTicket({
+            ticket,
+          });
+        } else {
+          if (!code) {
+            throw new Error("인증 코드가 없습니다.");
+          }
+
+          const provider = getOAuthState();
+          const codeVerifier =
+            localStorage.getItem("oauth_code_verifier") || "";
+
+          if (!provider) {
+            throw new Error("OAuth 상태 정보가 없습니다.");
+          }
+
+          const redirectUri =
+            typeof window !== "undefined"
+              ? `${window.location.origin}/oauth/callback`
+              : "";
+
+          response = await loginWithOAuth({
+            provider: provider as OAuthProvider,
+            code,
+            redirectUri,
+            codeVerifier,
+          });
         }
 
-        // localStorage에서 저장된 정보 가져오기
-        const provider = getOAuthState();
-        const codeVerifier = localStorage.getItem("oauth_code_verifier") || "";
-
-        if (!provider) {
-          throw new Error("OAuth 상태 정보가 없습니다.");
-        }
-
-        const redirectUri =
-          typeof window !== "undefined"
-            ? `${window.location.origin}/oauth/callback`
-            : "";
-
-        // API 호출
-        // codeVerifier가 빈 문자열이어도 백엔드에서 처리하도록 전송
-        const response = await loginWithOAuth({
-          provider: provider as OAuthProvider,
-          code,
-          redirectUri,
-          codeVerifier,
-        });
-
-        // 토큰 저장
         saveTokens(response.tokens);
+        saveUser(response.user);
 
         // 상태 정리
         clearOAuthState();

@@ -473,12 +473,12 @@ NEXT_PUBLIC_API_BASE_URL=
 
 # Google OAuth
 NEXT_PUBLIC_GOOGLE_CLIENT_ID=your_client_id
-NEXT_PUBLIC_GOOGLE_REDIRECT_URI=http://localhost:3000/oauth/google/callback
+NEXT_PUBLIC_GOOGLE_REDIRECT_URI=https://localhost:3000/oauth/google/callback
 GOOGLE_CLIENT_SECRET=your_client_secret
 
 # Kakao OAuth
 NEXT_PUBLIC_KAKAO_CLIENT_ID=your_client_id
-NEXT_PUBLIC_KAKAO_REDIRECT_URI=http://localhost:3000/oauth/kakao/callback
+NEXT_PUBLIC_KAKAO_REDIRECT_URI=https://localhost:3000/oauth/kakao/callback
 KAKAO_CLIENT_SECRET=your_client_secret
 ```
 

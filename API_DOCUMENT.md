@@ -44,6 +44,35 @@ Response 200 (application/json)
 
 ---
 
+### POST /oauth/callback/exchange
+
+설명: OAuth 콜백 티켓 교환
+
+Request Body (application/json)
+{
+"ticket": "b5d75343-ac4b-42f8-b933-985f17f4a85f"
+}
+
+Response 200 (application/json)
+{
+"tokens": {
+"accessToken": "access.jwt.token",
+"refreshToken": "refresh.jwt.token",
+"tokenType": "bearer",
+"expiresIn": 3600,
+"refreshTokenExpiresIn": 604800
+},
+"user": {
+"userId": "b7e0d7d1-2d1b-4c5b-8b0f-8c8d1a9f6b2a",
+"email": "user@example.com",
+"name": "Alex M.",
+"profileImage": "https://example.com/profile.png"
+},
+"isNewUser": true
+}
+
+---
+
 ### POST /oauth/refresh
 
 설명: Access Token 갱신

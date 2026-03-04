@@ -2,8 +2,14 @@
 
 import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { loginWithOAuth, saveTokens, saveUser } from "@/lib/api/auth";
+import {
+  exchangeOAuthCallbackTicket,
+  loginWithOAuth,
+  saveTokens,
+  saveUser,
+} from "@/lib/api/auth";
 import { clearOAuthState, getRedirectUri } from "@/lib/utils/oauth";
+import { OAuthLoginResponse } from "@/types/auth";
 
 function GoogleCallbackContent() {
   const router = useRouter();
@@ -14,6 +20,7 @@ function GoogleCallbackContent() {
     async function handleCallback() {
       try {
         // URL에서 code와 error 파라미터 추출
+        const ticket = searchParams.get("ticket");
         const code = searchParams.get("code");
         const errorParam = searchParams.get("error");
 
@@ -21,21 +28,28 @@ function GoogleCallbackContent() {
           throw new Error("Google 인증에 실패했습니다.");
         }
 
-        if (!code) {
-          throw new Error("인증 코드가 없습니다.");
+        let response: OAuthLoginResponse;
+
+        if (ticket) {
+          response = await exchangeOAuthCallbackTicket({
+            ticket,
+          });
+        } else {
+          if (!code) {
+            throw new Error("인증 코드가 없습니다.");
+          }
+
+          const codeVerifier =
+            localStorage.getItem("oauth_code_verifier") || "";
+          const redirectUri = getRedirectUri("google");
+
+          response = await loginWithOAuth({
+            provider: "google",
+            code,
+            redirectUri,
+            codeVerifier,
+          });
         }
-
-        // localStorage에서 저장된 정보 가져오기
-        const codeVerifier = localStorage.getItem("oauth_code_verifier") || "";
-        const redirectUri = getRedirectUri("google");
-
-        // API 호출
-        const response = await loginWithOAuth({
-          provider: "google",
-          code,
-          redirectUri,
-          codeVerifier,
-        });
 
         // 토큰 및 사용자 정보 저장
         saveTokens(response.tokens);
@@ -44,8 +58,11 @@ function GoogleCallbackContent() {
         // 상태 정리
         clearOAuthState();
 
-        // 로그인 성공 시 메인 페이지로 이동
-        router.push("/main");
+        if (response.isNewUser) {
+          router.push("/onboarding");
+        } else {
+          router.push("/main");
+        }
       } catch (err) {
         console.error("Google OAuth callback error:", err);
         setError(

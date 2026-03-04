@@ -1,5 +1,22 @@
 import { OAuthProvider } from "@/types/auth";
 
+const DEFAULT_REDIRECT_URIS: Record<OAuthProvider, string> = {
+  google: "https://localhost:3000/oauth/google/callback",
+  kakao: "https://localhost:3000/oauth/kakao/callback",
+};
+
+function normalizeRedirectUri(value: string, fallback: string): string {
+  try {
+    const parsed = new URL(value);
+    if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+      return fallback;
+    }
+    return parsed.toString();
+  } catch {
+    return fallback;
+  }
+}
+
 /**
  * PKCE Code Verifier 생성
  * @returns 랜덤 code verifier (43-128자)
@@ -36,18 +53,18 @@ function base64URLEncode(buffer: Uint8Array): string {
  * Provider별 리다이렉트 URI 가져오기
  */
 export function getRedirectUri(provider: OAuthProvider): string {
-  if (provider === "google") {
-    return (
-      process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI ||
-      "http://localhost:3000/oauth/google/callback"
-    );
-  } else if (provider === "kakao") {
-    return (
-      process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI ||
-      "http://localhost:3000/oauth/kakao/callback"
-    );
+  const redirectUriFromEnv =
+    provider === "google"
+      ? process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI
+      : process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI;
+
+  const fallbackRedirectUri = DEFAULT_REDIRECT_URIS[provider];
+
+  if (!redirectUriFromEnv) {
+    return fallbackRedirectUri;
   }
-  throw new Error(`Unknown OAuth provider: ${provider}`);
+
+  return normalizeRedirectUri(redirectUriFromEnv, fallbackRedirectUri);
 }
 
 /**

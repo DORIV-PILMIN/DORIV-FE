@@ -1,4 +1,5 @@
 import {
+  OAuthCallbackExchangeRequest,
   OAuthLoginRequest,
   OAuthLoginResponse,
   OAuthErrorResponse,
@@ -8,7 +9,10 @@ import {
   User,
 } from "@/types/auth";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "/api";
+const API_BASE_URL = (process.env.NEXT_PUBLIC_API_BASE_URL || "/api").replace(
+  /\/$/,
+  ""
+);
 
 /**
  * 백엔드에서 OAuth 로그인 URL 가져오기
@@ -18,17 +22,10 @@ export async function getOAuthUrlFromBackend(
   provider: OAuthProvider
 ): Promise<string> {
   try {
-    const redirectUri =
-      typeof window !== "undefined"
-        ? `${window.location.origin}/oauth/callback`
-        : "";
-
-    const response = await fetch(
-      `${API_BASE_URL}/oauth/url?provider=${provider}&redirectUri=${encodeURIComponent(redirectUri)}`,
-      {
-        method: "GET",
-      }
-    );
+    const response = await fetch(`${API_BASE_URL}/oauth/url?provider=${provider}`, {
+      method: "GET",
+      credentials: "include",
+    });
 
     if (!response.ok) {
       throw new Error("OAuth URL을 가져올 수 없습니다.");
@@ -66,6 +63,32 @@ export async function loginWithOAuth(
     return data;
   } catch (error) {
     console.error("OAuth login error:", error);
+    throw error;
+  }
+}
+
+export async function exchangeOAuthCallbackTicket(
+  request: OAuthCallbackExchangeRequest
+): Promise<OAuthLoginResponse> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/oauth/callback/exchange`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(request),
+    });
+
+    if (!response.ok) {
+      const error: OAuthErrorResponse = await response.json();
+      throw new Error(error.message || "콜백 티켓 교환에 실패했습니다.");
+    }
+
+    const data: OAuthLoginResponse = await response.json();
+    return data;
+  } catch (error) {
+    console.error("OAuth callback exchange error:", error);
     throw error;
   }
 }

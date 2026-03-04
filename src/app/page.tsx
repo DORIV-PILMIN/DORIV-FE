@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { getOAuthLoginUrl, saveOAuthState } from "@/lib/utils/oauth";
+import { getOAuthUrlFromBackend } from "@/lib/api/auth";
 import { FcGoogle } from "react-icons/fc";
 import { RiKakaoTalkFill } from "react-icons/ri";
 
@@ -22,8 +22,7 @@ function HomeContent() {
 
   const handleGoogleLogin = async () => {
     try {
-      saveOAuthState("google");
-      const loginUrl = await getOAuthLoginUrl("google");
+      const loginUrl = await getOAuthUrlFromBackend("google");
       window.location.href = loginUrl;
     } catch (error) {
       console.error("Google login error:", error);
@@ -33,8 +32,7 @@ function HomeContent() {
 
   const handleKakaoLogin = async () => {
     try {
-      saveOAuthState("kakao");
-      const loginUrl = await getOAuthLoginUrl("kakao");
+      const loginUrl = await getOAuthUrlFromBackend("kakao");
       window.location.href = loginUrl;
     } catch (error) {
       console.error("Kakao login error:", error);

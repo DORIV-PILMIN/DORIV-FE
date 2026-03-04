@@ -9,6 +9,10 @@ export interface OAuthLoginRequest {
   codeVerifier: string;
 }
 
+export interface OAuthCallbackExchangeRequest {
+  ticket: string;
+}
+
 // 토큰 정보
 export interface TokenInfo {
   accessToken: string;
