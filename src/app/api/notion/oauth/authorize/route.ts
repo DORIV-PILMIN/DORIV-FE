@@ -1,26 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
-const NOTION_REDIRECT_URI =
-  process.env.NEXT_PUBLIC_NOTION_REDIRECT_URI || process.env.NOTION_REDIRECT_URI;
 
-function getFallbackRedirectUri() {
-  if (NOTION_REDIRECT_URI) {
-    return NOTION_REDIRECT_URI;
-  }
-
-  if (!BACKEND_URL) {
-    return "";
-  }
-
-  try {
-    return new URL("/notion/oauth/callback", BACKEND_URL).toString();
-  } catch {
-    return "";
-  }
+function getFallbackRedirectUri(request: NextRequest) {
+  return new URL("/notion/oauth/callback", request.nextUrl.origin).toString();
 }
 
-function normalizeNotionAuthorizeUrl(rawUrl: string) {
+function normalizeNotionAuthorizeUrl(rawUrl: string, request: NextRequest) {
   try {
     const parsed = new URL(rawUrl);
     const isNotionAuthorize =
@@ -32,7 +18,7 @@ function normalizeNotionAuthorizeUrl(rawUrl: string) {
       return rawUrl;
     }
 
-    const fallbackRedirectUri = getFallbackRedirectUri();
+    const fallbackRedirectUri = getFallbackRedirectUri(request);
     if (!fallbackRedirectUri) {
       return rawUrl;
     }
@@ -88,7 +74,7 @@ export async function GET(request: NextRequest) {
     const location = response.headers.get("location");
     if (location) {
       return NextResponse.json(
-        { url: normalizeNotionAuthorizeUrl(location) },
+        { url: normalizeNotionAuthorizeUrl(location, request) },
         { status: 200 }
       );
     }
@@ -100,7 +86,7 @@ export async function GET(request: NextRequest) {
 
       if (url) {
         return NextResponse.json(
-          { url: normalizeNotionAuthorizeUrl(url) },
+          { url: normalizeNotionAuthorizeUrl(url, request) },
           { status: 200 }
         );
       }
@@ -109,7 +95,10 @@ export async function GET(request: NextRequest) {
     }
 
     if (response.ok && response.url) {
-      return NextResponse.json({ url: response.url }, { status: 200 });
+      return NextResponse.json(
+        { url: normalizeNotionAuthorizeUrl(response.url, request) },
+        { status: 200 }
+      );
     }
 
     const message = await response.text();

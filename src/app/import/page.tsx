@@ -37,6 +37,31 @@ export default function ImportPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const currentParams = new URLSearchParams(window.location.search);
+    const notionOAuthStatus = currentParams.get("notion_oauth");
+    if (!notionOAuthStatus) {
+      return;
+    }
+
+    if (notionOAuthStatus === "cancelled") {
+      setNotice("노션 권한 연결이 취소되었습니다.");
+    } else if (notionOAuthStatus === "success") {
+      setNotice("노션 권한 연결이 완료되었습니다. 불러올 페이지를 선택해 주세요.");
+    } else {
+      setNotice("노션 권한 연결 중 오류가 발생했습니다. 다시 시도해 주세요.");
+    }
+
+    const cleanUrl = new URL(window.location.href);
+    cleanUrl.searchParams.delete("notion_oauth");
+    cleanUrl.searchParams.delete("notion_oauth_detail");
+    window.history.replaceState({}, "", cleanUrl.toString());
+  }, []);
+
   const pages = searchMutation.data?.pages ?? [];
 
   const selectedCount = useMemo(() => {
